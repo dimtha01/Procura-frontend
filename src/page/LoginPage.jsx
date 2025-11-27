@@ -20,256 +20,227 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Header con logo */}
-      <header className="absolute top-0 left-0 p-6 z-10">
-        <div className="flex items-center gap-2">
-          <div className="text-orange-600">
-            <svg className="w-12 h-12" viewBox="0 0 48 48" fill="currentColor">
-              <rect x="8" y="24" width="4" height="16"/>
-              <rect x="14" y="18" width="4" height="22"/>
-              <rect x="20" y="12" width="4" height="28"/>
-              <rect x="26" y="8" width="4" height="32"/>
-              <rect x="32" y="12" width="4" height="28"/>
-              <rect x="38" y="18" width="4" height="22"/>
-            </svg>
-          </div>
-          <div className="text-sm">
-            <div className="font-bold text-gray-800">business &</div>
-            <div className="font-bold text-gray-800">development</div>
-          </div>
+    <div className="h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 flex items-center justify-center p-4 overflow-hidden relative border-shadow">
+      {/* Elementos decorativos de fondo */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+      
+      {/* Header con logo - Posición absoluta */}
+      {/* <header className="absolute top-6 left-6 z-10">
+        <div className="flex items-center bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
+          <img src="./src/assets/logo20.png" alt="Logo" className="w-10 h-10 sm:w-12 sm:h-12" />
         </div>
-      </header>
+      </header> */}
 
-      {/* Main Content - Login Card */}
-      <main className="flex-1 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden max-w-5xl w-full flex flex-col md:flex-row">
-          
-          {/* Panel Izquierdo - Naranja */}
-          <div className="bg-gradient-to-br from-orange-500 to-orange-600 text-white p-12 md:w-1/2 flex flex-col justify-between">
-            <div>
-              {/* Logo */}
-              <div className="mb-8">
-                <svg className="w-16 h-16 mb-4" viewBox="0 0 48 48" fill="white">
-                  <rect x="8" y="24" width="3" height="16"/>
-                  <rect x="13" y="18" width="3" height="22"/>
-                  <rect x="18" y="12" width="3" height="28"/>
-                  <rect x="23" y="8" width="3" height="32"/>
-                  <rect x="28" y="12" width="3" height="28"/>
-                  <rect x="33" y="18" width="3" height="22"/>
-                  <rect x="38" y="24" width="3" height="16"/>
-                </svg>
-                <div className="text-2xl font-bold leading-tight">
-                  business &<br/>development
-                </div>
-                <div className="text-sm opacity-90 mt-1">Venezuela</div>
+      {/* Main Content - Login Card Centrado */}
+      <div className="bg-white rounded-3xl shadow-2xl overflow-hidden max-w-5xl w-full flex flex-col md:flex-row max-h-[90vh] relative z-10 hover:shadow-orange-200/50 transition-shadow duration-500">
+        
+        {/* Panel Izquierdo - Naranja */}
+        <div className="bg-gradient-to-br from-orange-600 via-orange-500 to-orange-400 text-white p-8 sm:p-10 md:p-12 md:w-[45%] flex flex-col justify-between relative overflow-hidden">
+          {/* Patrón decorativo de fondo */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-10 right-10 w-32 h-32 border-4 border-white rounded-full"></div>
+            <div className="absolute bottom-20 left-10 w-24 h-24 border-4 border-white rounded-full"></div>
+            <div className="absolute top-1/2 left-1/3 w-16 h-16 border-4 border-white rounded-full"></div>
+          </div>
+
+          <div className="relative z-10">
+            {/* Logo */}
+            <div className="mb-8">
+              <div className="flex items-center mb-4">
+                <img src="./src/assets/logo20.png" alt="Logo" className="w-16 h-16 sm:w-20 sm:h-20 filter drop-shadow-lg" />
               </div>
-
-              {/* Título */}
-              <h1 className="text-3xl font-bold mb-4">
-                Corporación Business &<br/>Development
-              </h1>
-              <p className="text-lg mb-8 opacity-95">
-                Sistema de Gestión Empresarial
-              </p>
-
-              {/* Caja de descripción */}
-              <div className="bg-orange-600/50 rounded-lg p-6 backdrop-blur-sm">
-                <p className="text-sm leading-relaxed">
-                  Desarrollamos negocios rentables y escalables con un equipo de profesionales 
-                  altamente capacitados, orientados al crecimiento y éxito de cada proyecto.
-                </p>
+              <div className="inline-block bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
+                <span className="text-sm font-medium">Corporación B&D</span>
               </div>
             </div>
 
-            {/* Footer del panel */}
-            <div className="text-sm opacity-75 mt-8">
+            {/* Título */}
+            <h1 className="text-3xl sm:text-4xl font-bold mb-3 leading-tight">
+              Sistema Procura
+            </h1>
+            <p className="text-lg mb-8 opacity-95 font-light">
+              Plataforma de Aprovisionamiento Estratégico
+            </p>
+
+            {/* Características */}
+            <div className="space-y-3 mb-8">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <span className="text-sm">Gestión inteligente de compras</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <span className="text-sm">Control de inventario en tiempo real</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <span className="text-sm">Análisis y reportes avanzados</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Footer del panel + Contacto compacto */}
+          <div className="mt-8 space-y-3 relative z-10">
+            <div className="flex gap-3">
+              <a href="#" className="w-10 h-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                </svg>
+              </a>
+              <a href="#" className="w-10 h-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                </svg>
+              </a>
+            </div>
+            <div className="text-xs opacity-90 space-y-2 bg-white/10 backdrop-blur-sm rounded-lg p-3">
+              <div className="flex items-center gap-2">
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                <span>+58 (414) 123-4567</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <span>info@corporacionbd.com</span>
+              </div>
+            </div>
+            <div className="text-xs opacity-75 pt-2">
               © 2025 Corporación Business & Development
             </div>
           </div>
+        </div>
 
-          {/* Panel Derecho - Formulario */}
-          <div className="p-12 md:w-1/2 flex flex-col justify-center">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-800 mb-2">
+        {/* Panel Derecho - Formulario */}
+        <div className="p-8 sm:p-10 md:p-12 md:w-[55%] flex flex-col justify-center bg-gradient-to-br from-white to-gray-50">
+          <div>
+            {/* Indicador visual superior */}
+            <div className="flex items-center gap-2 mb-6">
+              <div className="w-12 h-1 bg-orange-500 rounded-full"></div>
+              <div className="w-3 h-1 bg-orange-300 rounded-full"></div>
+              <div className="w-3 h-1 bg-orange-200 rounded-full"></div>
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+              Bienvenido
+            </h2>
+            <p className="text-sm text-gray-600 mb-8">
+              Ingresa tus credenciales para acceder al sistema
+            </p>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Campo Email */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Correo electrónico
+                </label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none transition-colors">
+                    <svg className="h-5 w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="nombre@ejemplo.com"
+                    className="block w-full pl-11 pr-4 py-3 text-sm border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all duration-200 hover:border-gray-300"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Campo Contraseña */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Contraseña
+                </label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg className="h-5 w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  </div>
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    className="block w-full pl-11 pr-12 py-3 text-sm border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all duration-200 hover:border-gray-300"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-orange-500 transition-colors"
+                  >
+                    {showPassword ? (
+                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                      </svg>
+                    ) : (
+                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Botón Submit */}
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold py-3.5 px-4 rounded-xl transition-all duration-300 shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 hover:-translate-y-0.5 text-sm flex items-center justify-center gap-2 group"
+              >
                 Iniciar sesión
-              </h2>
-              <p className="text-gray-600 mb-8">
-                Ingresa tus credenciales para acceder
-              </p>
+                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </button>
+            </form>
 
-              <form onSubmit={handleSubmit}>
-                {/* Campo Email */}
-                <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Correo electrónico
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                    </div>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="nombre@ejemplo.com"
-                      className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition"
-                      required
-                    />
-                  </div>
-                </div>
-
-                {/* Campo Contraseña */}
-                <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Contraseña
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                      </svg>
-                    </div>
-                    <input
-                      type={showPassword ? 'text' : 'password'}
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      placeholder="••••••••"
-                      className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition"
-                      required
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center hover:text-orange-500 transition"
-                    >
-                      {showPassword ? (
-                        <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                        </svg>
-                      ) : (
-                        <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                      )}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Botón Submit */}
-                <button
-                  type="submit"
-                  className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 shadow-md hover:shadow-lg"
-                >
-                  Iniciar sesión
-                </button>
-              </form>
-
-              {/* Link de soporte */}
-              <p className="text-center text-sm text-gray-600 mt-6">
+            {/* Link de soporte */}
+            <div className="mt-6 text-center">
+              <p className="text-xs text-gray-600">
                 ¿Problemas para iniciar sesión?{' '}
-                <a href="#" className="text-orange-500 hover:text-orange-600 font-medium">
+                <a href="#" className="text-orange-600 hover:text-orange-700 font-semibold hover:underline transition-colors">
                   Contactar soporte
                 </a>
               </p>
+            </div>
 
-              {/* Versión */}
-              <p className="text-center text-xs text-gray-500 mt-4">
-                v2.0 | © 2025 Corporación B&D
-              </p>
+            {/* Footer compacto */}
+            <div className="mt-8 pt-6 border-t border-gray-200">
+              <div className="flex justify-between items-center text-xs text-gray-500">
+                <span className="font-medium">v2.0 | © 2025 B&D</span>
+                <div className="flex gap-4">
+                  <a href="#" className="hover:text-orange-600 transition-colors font-medium">Términos</a>
+                  <a href="#" className="hover:text-orange-600 transition-colors font-medium">Privacidad</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-8">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-            
-            {/* Logo y descripción */}
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-3">
-                <svg className="w-10 h-10 text-orange-600" viewBox="0 0 48 48" fill="currentColor">
-                  <rect x="8" y="24" width="3" height="16"/>
-                  <rect x="13" y="18" width="3" height="22"/>
-                  <rect x="18" y="12" width="3" height="28"/>
-                  <rect x="23" y="8" width="3" height="32"/>
-                  <rect x="28" y="12" width="3" height="28"/>
-                  <rect x="33" y="18" width="3" height="22"/>
-                  <rect x="38" y="24" width="3" height="16"/>
-                </svg>
-                <div className="text-sm">
-                  <div className="font-bold text-gray-800">business &</div>
-                  <div className="font-bold text-gray-800">development</div>
-                </div>
-              </div>
-              <p className="text-sm text-gray-600 max-w-md">
-                En B&D estamos comprometidos en desarrollar negocios rentables y escalables a través de nuestro 
-                equipo de profesionales, orientados al logro de la autosustentabilidad y crecimiento de cada proyecto.
-              </p>
-              <div className="flex gap-3 mt-4">
-                <a href="#" className="w-10 h-10 bg-orange-500 hover:bg-orange-600 text-white rounded-full flex items-center justify-center transition">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                  </svg>
-                </a>
-                <a href="#" className="w-10 h-10 bg-orange-500 hover:bg-orange-600 text-white rounded-full flex items-center justify-center transition">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-
-            {/* Información de contacto */}
-            <div className="flex-1">
-              <h3 className="font-bold text-gray-800 mb-4 text-lg border-b-2 border-orange-500 inline-block pb-1">
-                Contacto
-              </h3>
-              <div className="space-y-3 text-sm text-gray-600">
-                <div className="flex items-start gap-2">
-                  <svg className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <p>
-                    Av. Salvador Feo La Cruz, Edificio World Trade Center Valencia,<br/>
-                    Piso PL, oficina PL-9, Sector Mañongo, Naguanagua, Carabobo,<br/>
-                    Venezuela
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                  <p>+58 (414) 123-4567</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  <p>info@corporacionbd.com</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Copyright y links legales */}
-          <div className="border-t border-gray-200 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
-            <p>© 2025 Corporación Business & Development MG. C.A. Todos los derechos reservados.</p>
-            <div className="flex gap-4 mt-4 md:mt-0">
-              <a href="#" className="hover:text-orange-500 transition">Términos y Condiciones</a>
-              <a href="#" className="hover:text-orange-500 transition">Política de Privacidad</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      </div>
     </div>
   );
 };
