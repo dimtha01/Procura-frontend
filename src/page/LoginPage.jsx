@@ -1,15 +1,59 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const LoginPage = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login attempt:', formData);
+    
+    try {
+      const response = await fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error('Error en login:', data.message);
+        alert(data.message || 'Credenciales inválidas');
+        return;
+      }
+
+      // Guardar token en localStorage
+      localStorage.setItem('token', data.token);
+      alert(data.token);
+      
+      // Decodificar el payload del token para obtener el rol (opcional)
+      const payload = JSON.parse(atob(data.token.split('.')[1]));
+      localStorage.setItem('userRole', payload.role);
+      localStorage.setItem('userEmail', payload.email);
+
+      console.log('Login exitoso:', payload);
+
+      // Redireccionar según el rol
+      if (payload.role === 'admin') {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/dashboard');
+      }
+
+    } catch (err) {
+      console.error('Error de conexión:', err);
+      alert('Error de conexión con el servidor');
+    }
   };
 
   const handleChange = (e) => {
@@ -24,13 +68,6 @@ export const LoginPage = () => {
       {/* Elementos decorativos de fondo */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-      
-      {/* Header con logo - Posición absoluta */}
-      {/* <header className="absolute top-6 left-6 z-10">
-        <div className="flex items-center bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
-          <img src="./src/assets/logo20.png" alt="Logo" className="w-10 h-10 sm:w-12 sm:h-12" />
-        </div>
-      </header> */}
 
       {/* Main Content - Login Card Centrado */}
       <div className="bg-white rounded-3xl shadow-2xl overflow-hidden max-w-5xl w-full flex flex-col md:flex-row max-h-[90vh] relative z-10 hover:shadow-orange-200/50 transition-shadow duration-500">
