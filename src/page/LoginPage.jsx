@@ -34,7 +34,6 @@ export const LoginPage = () => {
 
       // Guardar token en localStorage
       localStorage.setItem('token', data.token);
-      alert(data.token);
       
       // Decodificar el payload del token para obtener el rol (opcional)
       const payload = JSON.parse(atob(data.token.split('.')[1]));
