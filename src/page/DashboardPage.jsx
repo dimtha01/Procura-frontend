@@ -1,10 +1,30 @@
 // src/page/DashboardPage.jsx
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const DashboardPage = () => {
+  const navigate = useNavigate();
   const [userName] = useState('Juan Pérez');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
+    setMobileMenuOpen(false); // Cerrar menú móvil si está abierto
+  };
+
+  const handleLogoutConfirm = () => {
+    // TODO: Limpiar token del localStorage/sessionStorage
+    // localStorage.removeItem('token');
+    // sessionStorage.removeItem('user');
+    
+    // Redirigir al login
+    navigate('/login');
+  };
+
+  const handleLogoutCancel = () => {
+    setShowLogoutModal(false);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200">
@@ -39,6 +59,17 @@ export const DashboardPage = () => {
                   {userName.split(' ').map(n => n[0]).join('')}
                 </div>
               </div>
+
+              {/* Botón de cerrar sesión desktop */}
+              <button
+                onClick={handleLogoutClick}
+                className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                title="Cerrar sesión"
+              >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+              </button>
             </div>
 
             {/* Mobile Menu Button */}
@@ -68,12 +99,24 @@ export const DashboardPage = () => {
                   <p className="text-xs text-gray-500">Encargado Procura</p>
                 </div>
               </div>
+              
               <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 rounded-lg transition-colors">
                 <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
                 <span className="text-sm font-medium text-gray-700">Notificaciones</span>
                 <span className="ml-auto text-xs bg-orange-500 text-white px-2 py-1 rounded-full">3</span>
+              </button>
+
+              {/* Botón de cerrar sesión móvil */}
+              <button
+                onClick={handleLogoutClick}
+                className="w-full flex items-center gap-3 px-3 py-2 hover:bg-red-50 rounded-lg transition-colors text-red-600 border-t border-gray-200 pt-3 mt-3"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                <span className="text-sm font-medium">Cerrar Sesión</span>
               </button>
             </div>
           )}
@@ -296,6 +339,48 @@ export const DashboardPage = () => {
           </div>
         </div>
       </main>
+
+      {/* Modal de Confirmación de Cierre de Sesión */}
+      {showLogoutModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 sm:p-8 animate-scale-in">
+            {/* Icono */}
+            <div className="flex justify-center mb-4">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+              </div>
+            </div>
+
+            {/* Título */}
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 text-center mb-2">
+              ¿Cerrar Sesión?
+            </h3>
+
+            {/* Mensaje */}
+            <p className="text-sm sm:text-base text-gray-600 text-center mb-6">
+              ¿Estás seguro de que deseas cerrar tu sesión? Tendrás que volver a iniciar sesión para acceder al sistema.
+            </p>
+
+            {/* Botones */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={handleLogoutCancel}
+                className="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-lg transition-colors text-sm sm:text-base"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleLogoutConfirm}
+                className="flex-1 px-4 py-3 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold rounded-lg transition-all shadow-lg shadow-red-500/30 hover:shadow-xl text-sm sm:text-base"
+              >
+                Cerrar Sesión
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

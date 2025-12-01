@@ -8,6 +8,7 @@ import { ErrorPage } from "../page/ErrorPage"
 import { LoginPage } from "../page/LoginPage"
 import { DashboardPage } from "../page/DashboardPage"
 import { NuevoProductoPage } from "../page/NuevoProductoPage"
+import { ProductosPage } from "../page/ProductosPage"
 
 export const router = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
             {
                 path: "productos/nuevo",
                 element: <NuevoProductoPage />
+            },
+            {
+                path: "productos/lista",
+                element: <ProductosPage />
             }
         ]
 }

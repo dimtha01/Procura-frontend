@@ -8,6 +8,30 @@ export const LoginPage = () => {
     email: '',
     password: ''
   });
+  const [modal, setModal] = useState({
+    show: false,
+    type: '', // 'error' | 'success'
+    title: '',
+    message: ''
+  });
+
+  const showModal = (type, title, message) => {
+    setModal({
+      show: true,
+      type,
+      title,
+      message
+    });
+  };
+
+  const closeModal = () => {
+    setModal({
+      show: false,
+      type: '',
+      title: '',
+      message: ''
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +52,7 @@ export const LoginPage = () => {
 
       if (!response.ok) {
         console.error('Error en login:', data.message);
-        alert(data.message || 'Credenciales inválidas');
+        showModal('error', 'Error de Autenticación', data.message || 'Credenciales inválidas. Por favor verifica tu correo y contraseña.');
         return;
       }
 
@@ -44,14 +68,14 @@ export const LoginPage = () => {
 
       // Redireccionar según el rol
       if (payload.role === 'admin') {
-        navigate('/admin/dashboard');
+        navigate('/dashboard');
       } else {
         navigate('/dashboard');
       }
 
     } catch (err) {
       console.error('Error de conexión:', err);
-      alert('Error de conexión con el servidor');
+      showModal('error', 'Error de Conexión', 'No se pudo conectar con el servidor. Por favor verifica tu conexión a internet e intenta nuevamente.');
     }
   };
 
@@ -161,6 +185,7 @@ export const LoginPage = () => {
             </div>
           </div>
         </div>
+
         {/* Panel Derecho - Formulario */}
         <div className="p-8 sm:p-10 md:p-12 md:w-[55%] flex flex-col justify-center bg-gradient-to-br from-white to-gray-50">
           <div>
@@ -275,6 +300,53 @@ export const LoginPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal de Advertencia/Error */}
+      {modal.show && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 sm:p-8 animate-scale-in">
+            {/* Icono según el tipo */}
+            <div className="flex justify-center mb-4">
+              {modal.type === 'error' && (
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+              )}
+              {modal.type === 'success' && (
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+              )}
+            </div>
+
+            {/* Título */}
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 text-center mb-2">
+              {modal.title}
+            </h3>
+
+            {/* Mensaje */}
+            <p className="text-sm sm:text-base text-gray-600 text-center mb-6">
+              {modal.message}
+            </p>
+
+            {/* Botón */}
+            <button
+              onClick={closeModal}
+              className={`w-full px-4 py-3 font-semibold rounded-lg transition-all shadow-lg text-sm sm:text-base ${
+                modal.type === 'error'
+                  ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-red-500/30 hover:shadow-xl'
+                  : 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-green-500/30 hover:shadow-xl'
+              }`}
+            >
+              Entendido
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
