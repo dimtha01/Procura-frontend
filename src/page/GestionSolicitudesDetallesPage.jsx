@@ -9,6 +9,12 @@ export const GestionSolicitudesDetallesPage = () => {
   const [statusFilter, setStatusFilter] = useState('todos');
   const [tipoFilter, setTipoFilter] = useState('todos');
   const [guardando, setGuardando] = useState(false);
+  
+  // Modales
+  const [modalGuardar, setModalGuardar] = useState(false);
+  const [modalDescartar, setModalDescartar] = useState(false);
+  const [modalExito, setModalExito] = useState(false);
+  const [modalError, setModalError] = useState(false);
 
   // Datos de ejemplo
   const [solicitud, setSolicitud] = useState({
@@ -123,17 +129,22 @@ export const GestionSolicitudesDetallesPage = () => {
   };
 
   const handleGuardarCambios = async () => {
+    setModalGuardar(false);
     setGuardando(true);
     try {
       // TODO: PUT al backend
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      alert('✅ Cambios guardados exitosamente');
-      navigate('/solicitudes/gestion');
-    } catch (error) {
-      alert('❌ Error al guardar los cambios');
-    } finally {
+      await new Promise(resolve => setTimeout(resolve, 1500));
       setGuardando(false);
+      setModalExito(true);
+    } catch (error) {
+      setGuardando(false);
+      setModalError(true);
     }
+  };
+
+  const handleDescartarCambios = () => {
+    setItems(JSON.parse(JSON.stringify(itemsOriginales)));
+    setModalDescartar(false);
   };
 
   const getStatusConfig = (estado) => {
@@ -194,12 +205,24 @@ export const GestionSolicitudesDetallesPage = () => {
               </div>
             </div>
 
-            {hayCambios() && (
-              <div className="hidden sm:flex items-center gap-2 text-xs text-orange-600 bg-orange-50 px-3 py-1 rounded-full">
-                <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
-                <span className="font-medium">Cambios sin guardar</span>
-              </div>
-            )}
+            <div className="flex items-center gap-2 sm:gap-3">
+              {hayCambios() && (
+                <div className="hidden sm:flex items-center gap-2 text-xs text-orange-600 bg-orange-50 px-3 py-1 rounded-full">
+                  <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                  <span className="font-medium">Cambios sin guardar</span>
+                </div>
+              )}
+              
+              <button
+                onClick={() => navigate('/dashboard')}
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg shadow-orange-500/30 text-sm font-semibold"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                <span className="hidden sm:inline">Dashboard</span>
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -390,49 +413,202 @@ export const GestionSolicitudesDetallesPage = () => {
         </div>
       </main>
 
-      {/* Botón Guardar */}
+      {/* Botones Guardar/Descartar */}
       {hayCambios() && (
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-gray-200 shadow-2xl z-50">
-          <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4">
-            <div className="flex items-center justify-between gap-4">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-3 sm:py-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-                  <svg className="w-5 h-5 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                   </svg>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-gray-800">Tienes cambios sin guardar</p>
-                  <p className="text-xs text-gray-600">Los cambios se perderán si sales sin guardar</p>
+                  <p className="text-xs sm:text-sm font-semibold text-gray-800">Tienes cambios sin guardar</p>
+                  <p className="text-xs text-gray-600 hidden sm:block">Los cambios se perderán si sales sin guardar</p>
                 </div>
               </div>
 
+              <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
+                <button
+                  onClick={() => setModalDescartar(true)}
+                  className="flex-1 sm:flex-none px-4 sm:px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-lg transition-colors text-sm flex items-center justify-center gap-2"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  <span>Descartar</span>
+                </button>
+
+                <button
+                  onClick={() => setModalGuardar(true)}
+                  disabled={guardando}
+                  className="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-lg transition-all shadow-lg shadow-green-500/30 text-sm flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>Guardar Cambios</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Confirmar Guardar */}
+      {modalGuardar && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 sm:p-8 animate-scale-in">
+            <div className="flex justify-center mb-4">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            </div>
+
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 text-center mb-2">
+              ¿Guardar Cambios?
+            </h3>
+
+            <p className="text-sm sm:text-base text-gray-600 text-center mb-6">
+              Se actualizarán los estados y observaciones de todos los ítems modificados. Esta acción notificará al cliente.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => setModalGuardar(false)}
+                className="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-lg transition-colors text-sm sm:text-base"
+              >
+                Cancelar
+              </button>
               <button
                 onClick={handleGuardarCambios}
-                disabled={guardando}
-                className="px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-lg transition-all shadow-lg shadow-green-500/30 text-sm flex items-center gap-2 disabled:opacity-50"
+                className="flex-1 px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-lg transition-all shadow-lg shadow-green-500/30 hover:shadow-xl text-sm sm:text-base"
               >
-                {guardando ? (
-                  <>
-                    <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span>Guardando...</span>
-                  </>
-                ) : (
-                  <>
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span>Guardar Cambios</span>
-                  </>
-                )}
+                Confirmar
               </button>
             </div>
           </div>
         </div>
       )}
+
+      {/* Modal Confirmar Descartar */}
+      {modalDescartar && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 sm:p-8 animate-scale-in">
+            <div className="flex justify-center mb-4">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+            </div>
+
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 text-center mb-2">
+              ¿Descartar Cambios?
+            </h3>
+
+            <p className="text-sm sm:text-base text-gray-600 text-center mb-6">
+              Se perderán todas las modificaciones realizadas. Esta acción no se puede deshacer.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => setModalDescartar(false)}
+                className="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-lg transition-colors text-sm sm:text-base"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleDescartarCambios}
+                className="flex-1 px-4 py-3 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold rounded-lg transition-all shadow-lg shadow-red-500/30 hover:shadow-xl text-sm sm:text-base"
+              >
+                Descartar Todo
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Éxito */}
+      {modalExito && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 sm:p-8 animate-scale-in">
+            <div className="flex justify-center mb-4">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+            </div>
+
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 text-center mb-2">
+              ¡Cambios Guardados!
+            </h3>
+
+            <p className="text-sm sm:text-base text-gray-600 text-center mb-6">
+              Los cambios se han guardado exitosamente y el cliente ha sido notificado.
+            </p>
+
+            <button
+              onClick={() => {
+                setModalExito(false);
+                navigate('/solicitudes/gestion');
+              }}
+              className="w-full px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-lg transition-all shadow-lg shadow-green-500/30 hover:shadow-xl text-sm sm:text-base"
+            >
+              Entendido
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Error */}
+      {modalError && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 sm:p-8 animate-scale-in">
+            <div className="flex justify-center mb-4">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </div>
+            </div>
+
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 text-center mb-2">
+              Error al Guardar
+            </h3>
+
+            <p className="text-sm sm:text-base text-gray-600 text-center mb-6">
+              Ocurrió un error al intentar guardar los cambios. Por favor, intenta nuevamente.
+            </p>
+
+            <button
+              onClick={() => setModalError(false)}
+              className="w-full px-4 py-3 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold rounded-lg transition-all shadow-lg shadow-red-500/30 hover:shadow-xl text-sm sm:text-base"
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Estilos de animación */}
+      <style jsx>{`
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes scale-in {
+          from { opacity: 0; transform: scale(0.9); }
+          to { opacity: 1; transform: scale(1); }
+        }
+        .animate-fade-in { animation: fade-in 0.2s ease-out; }
+        .animate-scale-in { animation: scale-in 0.3s ease-out; }
+      `}</style>
     </div>
   );
 };

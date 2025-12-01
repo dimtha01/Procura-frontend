@@ -89,16 +89,16 @@ export const DashboardPage = () => {
       description: 'Revisar y aprobar',
       icon: 'clipboard',
       color: 'orange',
-      link: '/admin/solicitudes',
+      link: '/solicitudes/gestion',
       gradient: true
     },
-    {
-      title: 'Gestionar Productos',
-      description: 'Catálogo y precios',
-      icon: 'box',
-      color: 'orange',
-      link: '/productos'
-    },
+    // {
+    //   title: 'Gestionar Productos',
+    //   description: 'Catálogo y precios',
+    //   icon: 'box',
+    //   color: 'orange',
+    //   link: '/productos'
+    // },
     {
       title: 'Reportes Generales',
       description: 'Análisis de datos',
@@ -415,7 +415,7 @@ export const DashboardPage = () => {
                 {userRole === 'admin' ? 'Solicitudes Recientes de Clientes' : 'Mis Solicitudes Recientes'}
               </h3>
               <Link 
-                to={userRole === 'admin' ? '/admin/solicitudes' : '/solicitudes/lista'}
+                to={userRole === 'admin' ? '/solicitudes/gestion' : '/solicitudes/lista'}
                 className="text-xs sm:text-sm font-medium text-orange-600 hover:text-orange-700 flex items-center gap-1"
               >
                 Ver todas
@@ -498,7 +498,7 @@ export const DashboardPage = () => {
                       <td className="px-4 lg:px-6 py-4 text-sm text-gray-600">{solicitud.fecha}</td>
                       <td className="px-4 lg:px-6 py-4 text-right">
                         <Link 
-                          to={userRole === 'admin' ? `/admin/solicitudes/${solicitud.id}` : `/solicitudes/lista/${solicitud.id}`}
+                          to={userRole === 'admin' ? `/solicitudes/gestion/${solicitud.id}` : `/solicitudes/lista/${solicitud.id}`}
                           className="text-xs sm:text-sm font-medium text-orange-600 hover:text-orange-700 flex items-center justify-end gap-1"
                         >
                           Ver detalles
