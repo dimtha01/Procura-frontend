@@ -93,10 +93,10 @@ export const LoginPage = () => {
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
 
       {/* Main Content - Login Card Centrado */}
-      <div className="bg-white rounded-3xl shadow-2xl overflow-hidden max-w-5xl w-full flex flex-col md:flex-row max-h-[90vh] relative z-10 hover:shadow-orange-200/50 transition-shadow duration-500">
+      <div className="bg-white rounded-3xl shadow-2xl overflow-hidden max-w-6xl w-full flex flex-col lg:flex-row max-h-[95vh] relative z-10 hover:shadow-orange-200/50 transition-shadow duration-500 mx-2 sm:mx-4">
         
         {/* Panel Izquierdo - Naranja */}
-        <div className="bg-gradient-to-br from-orange-600 via-orange-500 to-orange-400 text-white p-8 sm:p-10 md:p-12 md:w-[45%] flex flex-col justify-between relative overflow-hidden">
+        <div className="bg-gradient-to-br from-orange-600 via-orange-500 to-orange-400 text-white p-6 sm:p-8 lg:p-12 lg:w-[45%] flex flex-col justify-between relative overflow-hidden">
           {/* Patrón decorativo de fondo */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-10 right-10 w-32 h-32 border-4 border-white rounded-full"></div>
@@ -106,12 +106,12 @@ export const LoginPage = () => {
 
           <div className="relative z-10">
             {/* Logo */}
-            <div className="mb-8">
+            <div className="mb-6 lg:mb-8">
               <div className="flex items-center mb-4">
-                <img 
-                  src="./src/assets/logo20.png" 
-                  alt="Logo" 
-                  className="w-16 h-16 sm:w-20 sm:h-20 filter brightness-0 invert drop-shadow-lg" 
+                <img
+                  src="./src/assets/logo20.png"
+                  alt="Logo"
+                  className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 filter brightness-0 invert drop-shadow-lg"
                 />
               </div>
               <div className="inline-block bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
@@ -120,10 +120,10 @@ export const LoginPage = () => {
             </div>
 
             {/* Título */}
-            <h1 className="text-3xl sm:text-4xl font-bold mb-3 leading-tight">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 leading-tight">
               Sistema Procura
             </h1>
-            <p className="text-lg mb-8 opacity-95 font-light">
+            <p className="text-sm sm:text-base lg:text-lg mb-6 lg:mb-8 opacity-95 font-light">
               Plataforma de Aprovisionamiento Estratégico
             </p>
 
@@ -157,7 +157,7 @@ export const LoginPage = () => {
           </div>
 
           {/* Footer del panel + Contacto compacto */}
-          <div className="mt-8 space-y-3 relative z-10">
+          <div className="mt-6 lg:mt-8 space-y-3 relative z-10">
             <div className="flex gap-3">
               <a href="#" className="w-10 h-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -191,7 +191,7 @@ export const LoginPage = () => {
         </div>
 
         {/* Panel Derecho - Formulario */}
-        <div className="p-8 sm:p-10 md:p-12 md:w-[55%] flex flex-col justify-center bg-gradient-to-br from-white to-gray-50">
+        <div className="p-6 sm:p-8 lg:p-12 lg:w-[55%] flex flex-col justify-center bg-gradient-to-br from-white to-gray-50">
           <div>
             {/* Indicador visual superior */}
             <div className="flex items-center gap-2 mb-6">

@@ -73,13 +73,6 @@ export const DashboardPage = () => {
       color: 'orange',
       link: '/solicitudes/lista'
     },
-    {
-      title: 'Mis Reportes',
-      description: 'Estadísticas personales',
-      icon: 'chart',
-      color: 'orange',
-      link: '/reportes'
-    }
   ];
 
   // Acciones rápidas para ADMINISTRADOR (3 acciones simétricas)
@@ -92,13 +85,6 @@ export const DashboardPage = () => {
       link: '/solicitudes/gestion',
       gradient: true
     },
-    // {
-    //   title: 'Gestionar Productos',
-    //   description: 'Catálogo y precios',
-    //   icon: 'box',
-    //   color: 'orange',
-    //   link: '/productos'
-    // },
     {
       title: 'Reportes Generales',
       description: 'Análisis de datos',
@@ -546,7 +532,7 @@ export const DashboardPage = () => {
                           <span className="text-xs text-gray-500">{solicitud.fecha}</span>
                         </div>
                         <Link 
-                          to={userRole === 'admin' ? `/admin/solicitudes/${solicitud.id}` : `/solicitudes/${solicitud.id}`}
+                          to={userRole === 'admin' ? `/solicitudes/gestion/${solicitud.id}` : `/solicitudes/lista/${solicitud.id}`}
                           className="text-orange-600 hover:text-orange-700 font-medium text-xs"
                         >
                           Ver →

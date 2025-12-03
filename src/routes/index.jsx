@@ -12,6 +12,7 @@ import { GestionSolicitudesPage } from "../page/GestionSolicitudesPage"
 import { GestionSolicitudesDetallesPage } from "../page/GestionSolicitudesDetallesPage"
 import { SolicitudesPage } from "../page/SolicitudesPage"
 import { SolicitudDetallesPage } from "../page/SolicitudDetallesPage"
+import { ReportesGeneralesPage } from "../page/ReportesGeneralesPage"
 
 export const router = createBrowserRouter([
     {
@@ -50,6 +51,10 @@ export const router = createBrowserRouter([
             {
                 path: "solicitudes/gestion/:id",
                 element: <GestionSolicitudesDetallesPage />
+            },
+            {
+                path: "reportes",
+                element: <ReportesGeneralesPage />
             }
         ]
 }

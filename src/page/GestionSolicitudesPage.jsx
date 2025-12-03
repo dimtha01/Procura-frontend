@@ -140,17 +140,6 @@ export const GestionSolicitudesPage = () => {
                 className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
               />
             </div>
-
-            <select
-              value={clienteFilter}
-              onChange={(e) => setClienteFilter(e.target.value)}
-              className="px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
-            >
-              <option value="todos">Todos los clientes</option>
-              {clientes.map(cliente => (
-                <option key={cliente} value={cliente}>{cliente}</option>
-              ))}
-            </select>
           </div>
         </div>
 
