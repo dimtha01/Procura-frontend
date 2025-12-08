@@ -9,6 +9,7 @@ export const NuevaSolicitudPage = () => {
   const [processing, setProcessing] = useState(false);
   const [productos, setProductos] = useState([]);
   const [editingCell, setEditingCell] = useState(null);
+  const [uploadId, setUploadId] = useState(null);
   
   // Estado para modales
   const [modal, setModal] = useState({
@@ -79,69 +80,67 @@ export const NuevaSolicitudPage = () => {
     }
   };
 
-  const handleProcessar = async () => {
-    if (!file) {
-      showModal(
-        'error',
-        'Sin archivo',
-        'Debes seleccionar un archivo antes de procesar.'
-      );
-      return;
+const handleProcessar = async () => {
+  if (!file) {
+    showModal(
+      'error',
+      'Sin archivo',
+      'Debes seleccionar un archivo antes de procesar.'
+    );
+    return;
+  }
+  try {
+    setProcessing(true); 
+    const token = localStorage.getItem('token');
+    const formData = new FormData();
+    formData.append('file', file); 
+
+    const res = await fetch('http://localhost:3000/api/extract', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` }, 
+      body: formData,
+    });
+
+    if (!res.ok) {
+      const errText = await res.text().catch(() => '');
+      throw new Error(`Error ${res.status} al procesar el archivo ${errText}`);
     }
 
-    try {
-      setProcessing(true);
+    const data = await res.json();
+    // Soporta distintas formas por compatibilidad
+    const raw =
+      Array.isArray(data.extractedData) ? data.extractedData :
+      Array.isArray(data.data) ? data.data :
+      data.extractedData ? [data.extractedData] : [];
 
-      const formData = new FormData();
-      formData.append('file', file);
-
-      const response = await fetch('http://localhost:3000/api/extract', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error ${response.status} al procesar el archivo`);
-      }
-
-      const data = await response.json();
-      const requestsRaw = data.data || [];
-
-      if (!Array.isArray(requestsRaw)) {
-        throw new Error('La respuesta del servidor no contiene una lista de productos válida.');
-      }
-
-      const requests = requestsRaw.map((item, index) => ({
-        id: index + 1,
-        nombre: item.nombre,
-        categoria: item.categoria,
-        marca: item.marca,
-        modelo: item.modelo,
-        material: item.material,
-        precio: item.precio,
-        stock: item.stock,
-        confianza: item.confianza,
-        estatus: 'Borrador',
-      }));
-
-      setProductos(requests);
-      setProcessing(false);
-
-      showModal(
-        'success',
-        'Documento procesado',
-        `Se detectaron ${requests.length} productos en el archivo.`
-      );
-    } catch (err) {
-      console.error(err);
-      setProcessing(false);
-      showModal(
-        'error',
-        'Error al procesar',
-        err.message || 'Ocurrió un error al comunicarse con el servidor.'
-      );
+    if (!Array.isArray(raw) || raw.length === 0) {
+      throw new Error('La extracción no devolvió productos válidos');
     }
-  };
+
+    // Mapear a tu shape de la tabla
+    const mapped = raw.map((item, idx) => ({
+      id: idx + 1,
+      nombre: item.nombre || '',
+      categoria: item.categoria || '',
+      marca: item.marca || '',
+      modelo: item.modelo || '',
+      material: item.material || '',
+      precio: Number(item.precio || 0),
+      stock: Number(item.stock || 0),
+      confianza: Number(item.confianza || 0),
+      estatus: 'Borrador',
+    }));
+
+    setUploadId(data.uploadId || null);
+    setProductos(mapped);
+    // muestra tu modal/toast de éxito aquí
+  } catch (err) {
+    console.error(err);
+    // muestra tu modal/toast de error aquí
+  } finally {
+    setProcessing(false);
+  }
+};
 
   const handleCellEdit = (id, field, value) => {
     setProductos(productos.map(p => 
@@ -177,57 +176,56 @@ export const NuevaSolicitudPage = () => {
     }]);
   };
 
-  const handleGuardarTodos = async () => {
-    try {
-      if (!productos || productos.length === 0) {
-        showModal(
-          'error',
-          'Sin productos',
-          'No hay productos para guardar. Procesa un archivo primero.'
-        );
-        return;
-      }
+const handleGuardarTodos = async () => {
+  try {
+    if (!uploadId) throw new Error('No hay uploadId. Procesa un archivo primero.');
+    if (!productos || productos.length === 0) throw new Error('No hay productos para guardar.');
 
-      const productosParaGuardar = productos
-        .filter(p => p.estatus !== 'Rechazado')
-        .map(({ id, confianza, ...rest }) => rest);
+    const token = localStorage.getItem('token');
 
-      const response = await fetch('http://localhost:3000/api/requests', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          requests: productosParaGuardar,
-        }),
-      });
+    const requests = productos
+      // si usas estatus, filtra los que correspondan
+      // .filter(p => p.estatus !== 'Rechazado')
+      .map(({ estatus, id, ...rest }) => rest);
 
-      if (!response.ok) {
-        const errText = await response.text().catch(() => '');
-        throw new Error(`Error ${response.status} al guardar productos: ${errText}`);
-      }
+    const res = await fetch('http://localhost:3000/api/requests', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ uploadId, requests }),
+    });
 
-      const result = await response.json();
-      console.log('Productos guardados:', result);
-
-      showModal(
-        'success',
-        '¡Productos Guardados!',
-        `${productos.length} producto${productos.length !== 1 ? 's' : ''} guardado${productos.length !== 1 ? 's' : ''} exitosamente en el sistema.`,
-        () => {
-          navigate('/dashboard');
-        },
-        'Ir al Dashboard',
-        null
-      );
-
-    } catch (err) {
-      console.error(err);
-      showModal(
-        'error',
-        'Error al guardar',
-        err.message || 'Ocurrió un error al guardar los productos.'
-      );
+    if (!res.ok) {
+      const errText = await res.text().catch(() => '');
+      throw new Error(`Error ${res.status} al guardar productos ${errText}`);
     }
-  };
+
+    const out = await res.json();
+    // muestra tu modal/toast de éxito y navega si quieres
+    // navigate('/dashboard');
+    showModal(
+      'success',
+      '¡Productos Guardados!',
+      `${productos.length} producto${productos.length !== 1 ? 's' : ''} guardado${productos.length !== 1 ? 's' : ''} exitosamente en el sistema.`,
+      () => {
+        navigate('/dashboard');
+      },
+      'Ir al Dashboard',
+      null
+    );
+  } catch (err) {
+    console.error(err);
+    // modal/toast de error
+    showModal(
+      'error',
+      'Error al guardar',
+      err.message || 'Ocurrió un error al guardar los productos.'
+    );
+  }
+};
+
 
   const handleResetear = () => {
     showModal(
