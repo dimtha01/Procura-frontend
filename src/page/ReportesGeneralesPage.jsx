@@ -1,5 +1,5 @@
 // src/page/ReportesGeneralesPage.jsx
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
 export const ReportesGeneralesPage = () => {
@@ -9,6 +9,7 @@ export const ReportesGeneralesPage = () => {
   // Estadísticas de ejemplo
   const estadisticasGenerales = [
     {
+      id: 'total-solicitudes',
       title: "Total Solicitudes",
       value: "1,247",
       change: "+12.5%",
@@ -21,6 +22,7 @@ export const ReportesGeneralesPage = () => {
       color: "orange"
     },
     {
+      id: 'usuarios-activos',
       title: "Usuarios Activos",
       value: "384",
       change: "+8.2%",
@@ -33,6 +35,7 @@ export const ReportesGeneralesPage = () => {
       color: "blue"
     },
     {
+      id: 'procesadas',
       title: "Procesadas",
       value: "1,089",
       change: "87.3%",
@@ -45,6 +48,7 @@ export const ReportesGeneralesPage = () => {
       color: "green"
     },
     {
+      id: 'pendientes',
       title: "Pendientes",
       value: "158",
       change: "-2.4%",
@@ -60,18 +64,18 @@ export const ReportesGeneralesPage = () => {
 
   // Datos para gráficos de barras (simplificado)
   const datosMensuales = [
-    { mes: "Ene", solicitudes: 89, procesadas: 75 },
-    { mes: "Feb", solicitudes: 102, procesadas: 94 },
-    { mes: "Mar", solicitudes: 95, procesadas: 88 },
-    { mes: "Abr", solicitudes: 118, procesadas: 109 },
-    { mes: "May", solicitudes: 134, procesadas: 121 },
-    { mes: "Jun", solicitudes: 156, procesadas: 142 },
-    { mes: "Jul", solicitudes: 145, procesadas: 133 },
-    { mes: "Ago", solicitudes: 167, procesadas: 154 },
-    { mes: "Sep", solicitudes: 189, procesadas: 171 },
-    { mes: "Oct", solicitudes: 201, procesadas: 184 },
-    { mes: "Nov", solicitudes: 178, procesadas: 165 },
-    { mes: "Dic", solicitudes: 163, procesadas: 151 }
+    { id: 'ene-2025', mes: "Ene", solicitudes: 89, procesadas: 75 },
+    { id: 'feb-2025', mes: "Feb", solicitudes: 102, procesadas: 94 },
+    { id: 'mar-2025', mes: "Mar", solicitudes: 95, procesadas: 88 },
+    { id: 'abr-2025', mes: "Abr", solicitudes: 118, procesadas: 109 },
+    { id: 'may-2025', mes: "May", solicitudes: 134, procesadas: 121 },
+    { id: 'jun-2025', mes: "Jun", solicitudes: 156, procesadas: 142 },
+    { id: 'jul-2025', mes: "Jul", solicitudes: 145, procesadas: 133 },
+    { id: 'ago-2025', mes: "Ago", solicitudes: 167, procesadas: 154 },
+    { id: 'sep-2025', mes: "Sep", solicitudes: 189, procesadas: 171 },
+    { id: 'oct-2025', mes: "Oct", solicitudes: 201, procesadas: 184 },
+    { id: 'nov-2025', mes: "Nov", solicitudes: 178, procesadas: 165 },
+    { id: 'dic-2025', mes: "Dic", solicitudes: 163, procesadas: 151 }
   ];
 
   // Tipos de reporte disponibles
@@ -213,26 +217,6 @@ export const ReportesGeneralesPage = () => {
                 </p>
               </div>
             </div>
-
-            {/* Filtros */}
-            {/* <div className="flex items-center gap-2 sm:gap-3">
-              <select
-                value={periodoFiltro}
-                onChange={(e) => setPeriodoFiltro(e.target.value)}
-                className="px-2 sm:px-3 py-1.5 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white min-w-0 sm:min-w-[120px]"
-              >
-                <option value="semana">Semana</option>
-                <option value="mes">Mes</option>
-                <option value="trimestre">Trimestre</option>
-                <option value="anio">Año</option>
-                <option value="todos">Todo</option>
-              </select>
-
-              <button className="px-2 sm:px-4 py-1.5 text-xs font-medium text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 rounded-lg transition-all duration-200 shadow-lg shadow-orange-500/30 hover:shadow-xl whitespace-nowrap">
-                <span className="hidden sm:inline">Exportar</span>
-                <span className="sm:hidden">↓</span>
-              </button>
-            </div> */}
           </div>
         </div>
       </header>
@@ -246,13 +230,11 @@ export const ReportesGeneralesPage = () => {
           </h2>
 
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-            {estadisticasGenerales.map((stat, index) => (
-              <div key={index} className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-6 border border-gray-200 hover:shadow-lg transition-all duration-200 hover:scale-[1.02] group">
+            {estadisticasGenerales.map((stat) => (
+              <div key={stat.id} className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-6 border border-gray-200 hover:shadow-lg transition-all duration-200 hover:scale-[1.02] group">
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
                   <div className={`p-2 sm:p-2.5 lg:p-3 rounded-lg bg-${stat.color}-100 text-${stat.color}-600 group-hover:scale-110 transition-transform duration-200`}>
-                    <svg className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      {stat.icon.props.children}
-                    </svg>
+                    {stat.icon}
                   </div>
                   <span className={`text-xs sm:text-sm font-medium flex items-center gap-1 ${
                     stat.trend === 'up' ? 'text-green-600' : 'text-red-600'
@@ -283,46 +265,6 @@ export const ReportesGeneralesPage = () => {
           </div>
         </section>
 
-        {/* Tipos de Reporte */}
-        {/* <section className="mb-6 sm:mb-8">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">
-            Tipos de Reporte
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {tiposDeReporte.map((reporte) => (
-              <div key={reporte.id} className="group bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-200 hover:shadow-lg hover:border-orange-200 transition-all duration-200 cursor-pointer">
-                <div className={`mb-4 sm:mb-6 inline-flex p-3 sm:p-4 rounded-xl bg-${reporte.color}-100 text-${reporte.color}-600 group-hover:scale-110 transition-transform duration-200`}>
-                  {reporte.icon}
-                </div>
-
-                <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-2 sm:mb-3 group-hover:text-orange-600 transition-colors">
-                  {reporte.title}
-                </h3>
-
-                <p className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6 line-clamp-2">
-                  {reporte.description}
-                </p>
-
-                <div className="space-y-2 mb-4 sm:mb-6">
-                  {reporte.features.map((feature, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                      <svg className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      <span className="text-xs text-gray-600">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <button className={`w-full py-2 sm:py-2.5 px-3 sm:px-4 text-xs sm:text-sm font-medium text-white bg-gradient-to-r from-${reporte.color}-500 to-${reporte.color}-600 hover:from-${reporte.color}-600 hover:to-${reporte.color}-700 rounded-lg transition-all duration-200 shadow-md group-hover:shadow-lg`}>
-                  Generar Reporte
-                </button>
-              </div>
-            ))}
-          </div>
-        </section> */}
-
         {/* Gráfico de Actividad Mensual */}
         <section className="mb-6 sm:mb-8">
           <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-200">
@@ -345,8 +287,8 @@ export const ReportesGeneralesPage = () => {
 
             {/* Gráfico de barras responsive */}
             <div className="space-y-2.5 sm:space-y-3">
-              {datosMensuales.slice(0, 6).map((mes, index) => (
-                <div key={index} className="flex items-center gap-2 sm:gap-4">
+              {datosMensuales.slice(0, 6).map((mes) => (
+                <div key={mes.id} className="flex items-center gap-2 sm:gap-4">
                   <div className="w-10 sm:w-12 text-xs sm:text-sm font-medium text-gray-600 flex-shrink-0">
                     {mes.mes}
                   </div>
@@ -378,20 +320,20 @@ export const ReportesGeneralesPage = () => {
               ))}
             </div>
 
-            {/* Tabla simplificada para móvil */}
+            {/* Tabla simplificada para móvil - CORREGIDA */}
             <div className="mt-6 sm:hidden">
               <div className="grid grid-cols-3 gap-2 text-xs font-medium">
                 <div className="text-left text-gray-600 pb-2 border-b border-gray-200">Mes</div>
                 <div className="text-right text-gray-600 pb-2 border-b border-gray-200">Total</div>
                 <div className="text-right text-gray-600 pb-2 border-b border-gray-200">Proc.</div>
               </div>
-              <div className="grid grid-cols-3 gap-2 text-xs mt-2">
-                {datosMensuales.slice(0, 6).map((mes, index) => (
-                  <>
-                    <div key={`mes-${index}`} className="font-medium text-gray-800 py-1">{mes.mes}</div>
-                    <div key={`total-${index}`} className="text-right text-gray-800 py-1">{mes.solicitudes}</div>
-                    <div key={`proc-${index}`} className="text-right text-green-600 py-1">{mes.procesadas}</div>
-                  </>
+              <div className="text-xs mt-2">
+                {datosMensuales.slice(0, 6).map((mes) => (
+                  <div key={`tabla-mobile-${mes.id}`} className="grid grid-cols-3 gap-2 py-1">
+                    <div className="font-medium text-gray-800">{mes.mes}</div>
+                    <div className="text-right text-gray-800">{mes.solicitudes}</div>
+                    <div className="text-right text-green-600">{mes.procesadas}</div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -409,7 +351,7 @@ export const ReportesGeneralesPage = () => {
                 </h3>
 
                 <div className="space-y-3 sm:space-y-4">
-                  {actividadReciente.map((actividad, index) => (
+                  {actividadReciente.map((actividad) => (
                     <div key={actividad.id} className="flex items-start gap-3 sm:gap-4 pb-3 sm:pb-4 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 rounded-lg p-2 -m-2 transition-colors">
                       <div className={`p-2 rounded-lg bg-${actividad.color}-100 text-${actividad.color}-600 flex-shrink-0`}>
                         {getIconoActividad(actividad.icon)}
@@ -457,13 +399,6 @@ export const ReportesGeneralesPage = () => {
                     <span className="text-xs sm:text-sm font-bold text-purple-600">2.4 días</span>
                   </div>
                 </div>
-
-                {/* Botón de acción adicional */}
-                {/* <div className="mt-6 pt-4 border-t border-gray-200">
-                  <button className="w-full py-2.5 px-4 text-sm font-medium text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">
-                    Ver Reporte Completo
-                  </button>
-                </div> */}
               </div>
             </div>
           </div>
