@@ -1,4 +1,5 @@
 // src/page/SolicitudesPage.jsx
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -9,53 +10,54 @@ export const SolicitudesPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Datos de ejemplo - reemplazar con fetch real
-  const solicitudes = [
-    {
-      id: 'SOL-2025-001',
-      fecha: '2025-11-27',
-      nombreArchivo: 'solicitud_proyecto_norte_nov2025.xlsx',
-      totalItems: 156,
-      observaciones: 'Solicitud urgente para proyecto Norte - Fase 1',
-    },
-    {
-      id: 'SOL-2025-002',
-      fecha: '2025-11-26',
-      nombreArchivo: 'mantenimiento_preventivo_2025.csv',
-      totalItems: 89,
-      observaciones: 'Mantenimiento preventivo trimestral - Todas las instalaciones',
-    },
-    {
-      id: 'SOL-2025-003',
-      fecha: '2025-11-25',
-      nombreArchivo: 'reposicion_stock_almacen.xlsx',
-      totalItems: 234,
-      observaciones: 'Reposición mensual de stock - Almacén central',
-    },
-    {
-      id: 'SOL-2025-004',
-      fecha: '2025-11-24',
-      nombreArchivo: 'equipamiento_obra_sur.xlsx',
-      totalItems: 67,
-      observaciones: 'Equipamiento completo obra sur - Entregado',
-    },
-    {
-      id: 'SOL-2025-005',
-      fecha: '2025-11-23',
-      nombreArchivo: 'sistema_contraincendios.csv',
-      totalItems: 312,
-      observaciones: 'Presupuesto excede límite autorizado - Requiere autorización gerencial',
-    },
-    {
-      id: 'SOL-2025-006',
-      fecha: '2025-11-22',
-      nombreArchivo: 'suministros_varios_diciembre.xlsx',
-      totalItems: 145,
-      observaciones: 'Esperando cotización de proveedores',
-    },
-  ];
+  const [solicitudes, setSolicitudes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const filteredSolicitudes = solicitudes.filter(sol => {
+    useEffect(() => {
+    const fetchMyUploads = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const token = localStorage.getItem('token');
+
+        const res = await fetch('http://localhost:3000/api/uploads/user', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error || errData.message || 'Error al obtener mis solicitudes');
+        }
+
+        const data = await res.json();
+
+        const mapped = data.uploads.map((u, index) => ({
+          id: `SOL-${String(u.id).padStart(4, '0')}`, // N° solicitud visible
+          fecha: u.created_at,
+          nombreArchivo: u.original_name,
+          totalItems: u.total_items || 0, // cuando tengas conteo real, ajusta
+          observaciones: `Estado: ${u.status}`,
+          filePath: u.file_path,
+          uploadId: u.id,
+        }));
+
+        setSolicitudes(mapped);
+      } catch (err) {
+        console.error(err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMyUploads();
+  }, []);
+
+    const filteredSolicitudes = solicitudes.filter(sol => {
     const matchesSearch = sol.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          sol.nombreArchivo.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesSearch;
